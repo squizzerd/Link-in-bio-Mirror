@@ -53,9 +53,11 @@ The app will:
 - Reorder items with Up/Down buttons
 - All changes save to SQL Server automatically
 
-**Export/Import**:
-- Export all items as JSON
-- Import items from JSON backup
+**Share Link**:
+- Click "Share Link" button
+- Copy the generated URL
+- Use this link in your social media bio or anywhere you want to display your gallery
+- The link shows a clean, view-only version of your gallery
 
 ### 4. API Endpoints
 

@@ -75,9 +75,9 @@ Access the app at http://localhost:3000
 
 - **Preview Mode**: Click images to open destination links directly
 - **Edit Mode**: Add, update, delete, and reorder gallery items
+- **Share Link**: Generate a view-only URL for social media bios
 - **SQL Server Backend**: All data persisted in database
 - **RESTful API**: Full CRUD operations
-- **Export/Import**: Backup and restore gallery data as JSON
 - **Responsive Design**: Works on all devices
 
 ## API Endpoints
@@ -110,7 +110,8 @@ CREATE TABLE GridItems (
 1. Open http://localhost:3000
 2. Click "Edit Mode" to add and manage gallery items
 3. In Preview Mode, click images to navigate to their links
-4. Use Export/Import for data backup and restore
+4. Click "Share Link" to get a view-only URL for your social media bio
+5. Use the generated link in your bio or anywhere you want to display your gallery
 
 ## Troubleshooting
 

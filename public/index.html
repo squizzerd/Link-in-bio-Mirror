@@ -470,10 +470,7 @@
                     Edit Mode
                 </button>
                 <button class="btn" id="exportBtn">
-                    Export
-                </button>
-                <button class="btn" id="importBtn">
-                    Import
+                    Share Link
                 </button>
             </nav>
         </div>
@@ -486,20 +483,16 @@
             Preview Mode
         </div>
 
-        <!-- Data Management (Export/Import) -->
-        <section class="data-management" id="dataManagement" aria-label="Data management">
-            <h2 class="data-management-title">Import/Export Configuration</h2>
+        <section class="data-management" id="dataManagement" aria-label="Share gallery link">
+            <h2 class="data-management-title">Share Gallery Link</h2>
             <textarea 
                 class="data-textarea" 
                 id="dataTextarea" 
-                placeholder="Paste JSON configuration here..."
-                aria-label="JSON configuration"></textarea>
+                placeholder="Your view-only gallery link will appear here..."
+                aria-label="Gallery share link"></textarea>
             <div class="field-actions">
-                <button class="btn btn-primary" id="importDataBtn">
-                    Import Data
-                </button>
-                <button class="btn" id="copyDataBtn">
-                    Copy to Clipboard
+                <button class="btn btn-primary" id="copyDataBtn">
+                    Copy Link to Clipboard
                 </button>
                 <button class="btn" id="closeDataBtn">
                     Close
@@ -927,54 +920,14 @@
             }
         }
 
-        // Export data
+        // Export data - now generates view-only link
         function exportData() {
+            const viewOnlyUrl = `${window.location.origin}/view`;
             const dataManagement = document.getElementById('dataManagement');
             const dataTextarea = document.getElementById('dataTextarea');
             
-            dataTextarea.value = JSON.stringify(gridItems, null, 2);
+            dataTextarea.value = `Your view-only gallery link:\n${viewOnlyUrl}\n\nThis link can be shared in your social media bio or anywhere you want to display your gallery.`;
             dataManagement.classList.add('active');
-        }
-
-        // Import data
-        function importData() {
-            const dataManagement = document.getElementById('dataManagement');
-            dataManagement.classList.add('active');
-        }
-
-        function processImport() {
-            const dataTextarea = document.getElementById('dataTextarea');
-            try {
-                const importedData = JSON.parse(dataTextarea.value);
-                
-                if (!Array.isArray(importedData)) {
-                    throw new Error('Data must be an array');
-                }
-                
-                // Validate structure
-                importedData.forEach(item => {
-                    if (!item.imageUrl || !item.altText) {
-                        throw new Error('Each item must have imageUrl and altText');
-                    }
-                });
-                
-                // Batch add items to database
-                Promise.all(
-                    importedData.map(item => saveItem(item, true))
-                ).then(() => {
-                    fetchData();
-                    if (isEditMode) {
-                        renderEditPanel();
-                    }
-                    
-                    document.getElementById('dataManagement').classList.remove('active');
-                    alert('Data imported successfully!');
-                }).catch(error => {
-                    alert('Error importing data: ' + error.message);
-                });
-            } catch (e) {
-                alert('Error importing data: ' + e.message);
-            }
         }
 
         // Copy to clipboard
@@ -982,12 +935,12 @@
             const dataTextarea = document.getElementById('dataTextarea');
             try {
                 await navigator.clipboard.writeText(dataTextarea.value);
-                alert('Copied to clipboard!');
+                alert('Link copied to clipboard!');
             } catch (e) {
                 // Fallback for older browsers
                 dataTextarea.select();
                 document.execCommand('copy');
-                alert('Copied to clipboard!');
+                alert('Link copied to clipboard!');
             }
         }
 
@@ -995,8 +948,6 @@
         document.getElementById('toggleModeBtn').addEventListener('click', toggleEditMode);
         document.getElementById('addItemBtn').addEventListener('click', addNewItem);
         document.getElementById('exportBtn').addEventListener('click', exportData);
-        document.getElementById('importBtn').addEventListener('click', importData);
-        document.getElementById('importDataBtn').addEventListener('click', processImport);
         document.getElementById('copyDataBtn').addEventListener('click', copyToClipboard);
         document.getElementById('closeDataBtn').addEventListener('click', () => {
             document.getElementById('dataManagement').classList.remove('active');
